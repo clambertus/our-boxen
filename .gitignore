@@ -10,3 +10,5 @@
 /shared/*
 !/shared/README.md
 /vendor/gems/
+/Puppetfile.lock
+/vendor

@@ -54,6 +54,7 @@ Homebrew::Formula <| |> -> Package <| |>
 node default {
   # core modules, needed for most things
   include git
+  include brewcask
 
   # fail if FDE is not enabled
   if $::root_encrypted == 'no' {
@@ -71,8 +72,16 @@ node default {
     [
       'ack',
       'findutils',
-      'gnu-tar'
+      'gnu-tar',
     ]:
+  }
+
+  package { 'owncloud': 
+    provider => 'brewcask' 
+  }
+
+  package { 'keepassx':
+    provider => 'brewcask'
   }
 
   file { "${boxen::config::srcdir}/our-boxen":
@@ -81,9 +90,37 @@ node default {
   }
 
   include chrome
+  include python
+  include iterm2::stable
+  include virtualbox
+  include wireshark
+
+  include iterm2::colors::arthur
+  include iterm2::colors::piperita
+  include iterm2::colors::saturn
+  include iterm2::colors::solarized_light
+  include iterm2::colors::solarized_dark
+  include iterm2::colors::zenburn
+
+  include vim
+  vim::bundle {[
+    'godlygeek/tabular',
+    'rodjek/vim-puppet',
+    'tpope/vim-sensible',
+  ]:}
 
   include osx::global::tap_to_click
   include osx::finder::show_hidden_files
-  include osx::global::natural_mouse_scrolling
+
+  include osx::global::disable_remote_control_ir_receiver
+  include osx::global::disable_autocorrect
+
+  class { 'osx::dock::hot_corners':
+    top_right => "Start Screen Saver",
+  }
+
+  class { 'osx::global::natural_mouse_scrolling':
+    enabled => false
+  }
 
 }
