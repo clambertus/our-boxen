@@ -84,16 +84,26 @@ node default {
     provider => 'brewcask'
   }
 
+  package { 'Wireshark':
+    provider => 'pkgdmg',
+    source   => 'https://1.na.dl.wireshark.org/osx/Wireshark%201.99.5%20Intel%2064.dmg',
+  }
+
+  package { 'SkeyCalc':
+    provider => 'pkgdmg',
+    source   => 'http://quux.orange-carb.org/dist/SkeyCalc-3.0.dmg',
+  }
+
   file { "${boxen::config::srcdir}/our-boxen":
     ensure => link,
     target => $boxen::config::repodir
   }
 
   include chrome
-  include python
+  include cord
   include iterm2::stable
+  include python
   include virtualbox
-  include wireshark
 
   include iterm2::colors::arthur
   include iterm2::colors::piperita
@@ -110,7 +120,7 @@ node default {
   ]:}
 
   include osx::global::tap_to_click
-  include osx::finder::show_hidden_files
+  # include osx::finder::show_hidden_files
 
   include osx::global::disable_remote_control_ir_receiver
   include osx::global::disable_autocorrect
